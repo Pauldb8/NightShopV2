@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#60134B</color>
-    <color name="colorPrimaryDark">#60134B</color>
+    <color name="colorPrimary">#0f0717</color>
+    <color name="colorPrimaryDark">#0f0717</color>
     <color name="colorAccent">#E91E63</color>
     <color name="name_building">#263238</color>
     <color name="building_status">#33691E</color>

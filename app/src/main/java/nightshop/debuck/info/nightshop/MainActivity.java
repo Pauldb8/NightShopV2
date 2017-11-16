@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        //recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
         recyclerView.setAdapter(mAdapter);
 
@@ -62,52 +62,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void PrepareBuildingData() {
-        Building building = new Building(1, "TEST ZARA", "TEST ADRESS","TEST DESTINATION",1.2,2.4);
-        buildingList.add(building);
-
-        Building building2 = new Building(1, "TEST ZARA", "TEST ADRESS","TEST DES",1.2,2.4);
-        buildingList.add(building2);
-
-        Building building3 = new Building(1, "TEST ZARA", "TEST ADRESS","TEST DES",1.2,2.4);
-        buildingList.add(building3);
-
-        Building building4 = new Building(1, "TEST ZARA", "TEST ADRESS","TEST DES",1.2,2.4);
-        buildingList.add(building4);
-
-        Building building5 = new Building(1, "TEST ZARA", "TEST ADRESS","TEST DES",1.2,2.4);
-        buildingList.add(building5);
-
-        Building building6 = new Building(1, "TEST ZARA", "TEST ADRESS","TEST DES",1.2,2.4);
-        buildingList.add(building6);
-
-        Building building7 = new Building(1, "TEST ZARA", "TEST ADRESS","TEST DES",1.2,2.4);
-        buildingList.add(building7);
-
-
-        Building building8 = new Building(1, "TEST ZARA", "TEST ADRESS","TEST DES",1.2,2.4);
-        buildingList.add(building8);
-
-        Building building9 = new Building(1, "TEST ZARA", "TEST ADRESS","TEST DES",1.2,2.4);
-        buildingList.add(building9);
-
-        Building building10 = new Building(1, "TEST ZARA", "TEST ADRESS","TEST DES",1.2,2.4);
-        buildingList.add(building10);
-
-        Building building11 = new Building(1, "TEST ZARA", "TEST ADRESS","TEST DES",1.2,2.4);
-        buildingList.add(building11);
-
-        Building building12 = new Building(1, "TEST ZARA", "TEST ADRESS","TEST DES",1.2,2.4);
-        buildingList.add(building12);
-
-        Building building13 = new Building(1, "TEST ZARA", "TEST ADRESS","TEST DES",1.2,2.4);
-        buildingList.add(building13);
-
-        Building building14 = new Building(1, "TEST ZARA", "TEST ADRESS","TEST DES",1.2,2.4);
-        buildingList.add(building14);
-
-        Building building15 = new Building(1, "TEST ZARA", "TEST ADRESS","TEST DES",1.2,2.4);
-        buildingList.add(building15);
-
+        for(int i = 0; i < 20; i++) {
+            Building building = new Building(1, "Shell", "La hulpe qqpart", "Description de l'endroit en question",
+                    50.7327087, 4.4787191, 0, 9, 0, 23, 30);
+            buildingList.add(building);
+        }
 
         mAdapter.notifyDataSetChanged();
     }
