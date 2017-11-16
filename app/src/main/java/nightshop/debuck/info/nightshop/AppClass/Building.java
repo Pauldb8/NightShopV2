@@ -18,17 +18,19 @@ public class Building implements Serializable {
     private String description;
     private double lat;
     private double lng;
+    private double distance;
 
 
     public Building(){}
 
-    public Building(int id, String name, String address, String description, double lat, double lon) {
+    public Building(int id, String name, String address, String description, double lat, double lon, double distance) {
         this.id = id;
         this.name = name;
         this.address=address;
         this.lat=lat;
         this.lng =lon;
         this.description=description;
+        this.distance=distance;
     }
 
     public int getId() {
@@ -65,6 +67,9 @@ public class Building implements Serializable {
         this.description = description;
     }
 
+    public  double getDistance(){ return distance;}
+    public  void setDistance(double distance){ this.distance = distance;}
+
 
     public void populateObject(Cursor c){
         try{
@@ -88,7 +93,7 @@ public class Building implements Serializable {
 
     public String toString(){
         return ("[Building: id=" + getId() + ", name=" + getName() +", address=" +
-                getAddress() + ", lat=" + getLat()+ ", lng=" + getLng()+ ", description=" + getDescription()+ "]");
+                getAddress() + ", lat=" + getLat()+ ", lng=" + getLng()+ ", description=" + getDescription() + ", distance=" + getDistance()+"]");
     }
 
 }
