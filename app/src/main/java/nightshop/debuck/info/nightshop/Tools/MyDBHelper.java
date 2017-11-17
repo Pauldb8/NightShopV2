@@ -33,7 +33,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
          * name             TEXT
          * date             TEXT
          * room             TEXT
-         * fk_buildings_id  INT     // This will point to a building id
+         * fk_buildings_id  INT     // This will point to a mBuilding id
          * code             INT
          * expected         INT
          */
@@ -48,7 +48,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
 
 
         /**
-         * table Building           This table will contains all building information
+         * table Building           This table will contains all mBuilding information
          *
          * ------------------
          * id           INT

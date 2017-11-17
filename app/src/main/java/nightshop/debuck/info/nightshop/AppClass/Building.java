@@ -42,6 +42,8 @@ public class Building implements Serializable {
         this.minute_end=minute_end;
     }
 
+
+
     public int getId() {
         return id;
     }

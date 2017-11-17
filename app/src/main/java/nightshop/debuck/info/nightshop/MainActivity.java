@@ -13,7 +13,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -23,26 +22,36 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
 import nightshop.debuck.info.nightshop.AppClass.Building;
 import nightshop.debuck.info.nightshop.Tools.BuildingAdapter;
+import nightshop.debuck.info.nightshop.Tools.GsonRequest;
 
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
 
-    private List<Building> buildingList = new ArrayList<>();
+    private List<Building> mBuildings = new ArrayList<>();
     private RecyclerView recyclerView;
     private BuildingAdapter mAdapter;
+    private RequestQueue mRequestQueue;
+    private int mDistance = 10;
     private LocationManager locationManager;
     private double lat;
     private double lng;
     private String city;
     private Location location;
+    private String mCity;
+    private final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 2001;
 
     // The minimum distance to change Updates in meters
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
@@ -50,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     // The minimum time between updates in milliseconds
     private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute
     private boolean canGetLocation;
+
+    private final String TAG = "MainActivity";
 
 
     @Override
@@ -64,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
-        mAdapter = new BuildingAdapter(buildingList);
+        mAdapter = new BuildingAdapter(mBuildings);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -73,8 +84,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         recyclerView.setAdapter(mAdapter);
 
-        PrepareBuildingData();
+        mRequestQueue = MySingleton.getInstance(this).getRequestQueue();
+        mRequestQueue.start();
 
+        //getBuildings(50.7513824, 4.4984512, mDistance);
 
        // getLocalisation();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -88,16 +101,53 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             }
         });
 
-
+        getLocalisation();
     }
 
 
-    private void PrepareBuildingData() {
-        for (int i = 0; i < 20; i++) {
-            Building building = new Building(1, "Shell", "La hulpe qqpart", "Description de l'endroit en question",
-                    50.7327087, 4.4787191, 0, 9, 0, 23, 30);
-            buildingList.add(building);
+    /**
+     * This method gets all the buildings near the user
+     */
+    private void getBuildings(double lat, double lng, double distance) {
+        String urlRequest = getString(R.string.webservice_url) + "/buildings/nearest/";
+        urlRequest+= lat + "/" + lng + "/" + distance;
+        GsonRequest<Building[]> getBuildingsRequest = new GsonRequest<>(
+                urlRequest,
+                Building[].class,
+                null,
+                new Response.Listener<Building[]>() {
+                    @Override
+                    public void onResponse(Building[] response) {
+                        Log.d("MainActivity", "GOOD");
+                        updateBuildings(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("MainActivity", "Error");
+                    }
+                }
+        );
+
+        mRequestQueue.add(getBuildingsRequest);
+    }
+
+
+    private void updateBuildings(Building[] buildings) {
+        List<Building> list = new ArrayList(Arrays.asList(buildings));
+        List<Building> listDistance = new ArrayList();
+        Building distance = new Building();
+        distance.setId(999999);
+        listDistance.add(distance);
+        for(int i = 0; i < list.size(); i++){
+            listDistance.add(list.get(i));
         }
+
+
+        mAdapter = new BuildingAdapter(listDistance);
+
+        recyclerView.setAdapter(mAdapter);
 
         mAdapter.notifyDataSetChanged();
     }
@@ -127,9 +177,45 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
      * ini var Lat, Lng and city
      */
 
-    public void getLocalisation() {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults){
+        Log.d("TAG", "permissionsresults");
+        if(requestCode == MY_PERMISSIONS_REQUEST_READ_CONTACTS) {
+            getLocalisation();
+        }
+    }
 
+    public void getLocalisation() {
+        Log.d("MainActivity", "Init.: Geolocalizing..");
         locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Log.d(TAG, "checking self permission");
+                // Should we show an explanation?
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.ACCESS_FINE_LOCATION)
+                        && ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION)) {
+
+                    // Show an explanation to the user *asynchronously* -- don't block
+                    // this thread waiting for the user's response! After the user
+                    // sees the explanation, try again to request the permission.
+
+                } else {
+
+                    // No explanation needed, we can request the permission.
+
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                                    Manifest.permission.ACCESS_COARSE_LOCATION},
+                            MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+
+                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                    // app-defined int constant. The callback method gets the
+                    // result of the request.
+                }
+            }
 
         // getting GPS status
         boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -141,21 +227,20 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             // no GPS Provider and no network provider is enabled
             Toast.makeText(this,"Please enable your GPS or data Network",Toast.LENGTH_LONG).show();
         } else {   // Either GPS provider or network provider is enabled
+            Log.d("MainActivity", "GPS or network is active..");
+
+
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
 
             // First get location from Network Provider
             if (isNetworkEnabled) {
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    return;
-                }
-                //locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES,
-                  //      MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES,
+                        MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
                 if (locationManager != null)
                 {
                    Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
@@ -166,11 +251,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                         this.canGetLocation = true;
                     }
                 }
+                Log.d("MainActivity", "Network is enabled..");
             }// End of IF network enabled
 
             // if GPS Enabled get lat/long using GPS Services
             if (isGPSEnabled)
             {
+                Log.d("MainActivity", "GPS is enabled, fetching..");
                 locationManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES,
                         MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
                 if (locationManager != null)
@@ -183,20 +270,27 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                         this.canGetLocation = true;
                     }
                 }
-                Log.i("Location Changed", lat + " and " + lng);
+
+                Log.d("MainActivity", lat + " and " + lng);
+                getBuildings(lat, lng, mDistance);
 
                 Geocoder geocoder = new Geocoder(this, Locale.getDefault());
                 List<Address> addresses = null;
                 try {
-                    addresses = geocoder.getFromLocation(lat, lng, 100);
+                    addresses = geocoder.getFromLocation(lat, lng, 1);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                String cityName = addresses.get(0).getAddressLine(0);
-                String stateName = addresses.get(0).getAddressLine(1);
-                String countryName = addresses.get(0).getAddressLine(2);
+                mCity = addresses.get(0).getLocality();
 
-                Log.i("GEOCODER", cityName + " and " + stateName+" and "+countryName);
+                setTitle(mCity);
+
+                if(addresses != null){
+                    String stateName = addresses.get(0).getAddressLine(1);
+                    String countryName = addresses.get(0).getAddressLine(2);
+                    Log.i("GEOCODER", mCity + " and " + stateName+" and "+countryName);
+                }
+
 
             }// End of if GPS Enabled
         }// End of Either GPS provider or network provider is enabled
