@@ -125,7 +125,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("MainActivity", "Error");
+                        Log.d("MainActivity", "Error connecting to webserver..");
+                        error.printStackTrace();
                     }
                 }
         );

@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import nightshop.debuck.info.nightshop.AppClass.Building;
@@ -19,7 +20,7 @@ import java.util.List;
 public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyViewHolder> {
 
     private List<Building> buildingsList;
-    public RelativeLayout displayDistance;
+    public LinearLayout displayDistance;
     public RelativeLayout mBuilding;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -29,7 +30,7 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
         public MyViewHolder(View view) {
             super(view);
 
-            displayDistance = (RelativeLayout) view.findViewById(R.id.display_distance);
+            displayDistance = (LinearLayout) view.findViewById(R.id.display_distance);
             mBuilding = (RelativeLayout) view.findViewById(R.id.building);
 
             name = (TextView) view.findViewById(R.id.name_building);

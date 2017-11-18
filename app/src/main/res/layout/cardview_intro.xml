@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/display_distance"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/welcome_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/welcome_title"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:id="@+id/welcome_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/lightGray"
+        android:text="@string/welcome_subtitle" />
+
+    <TextView
+        android:id="@+id/tv_separation"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/tv_change_distance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/change_distance"
+        android:textAlignment="textEnd"
+        android:textColor="@color/colorAccent" />
+
+</LinearLayout>
