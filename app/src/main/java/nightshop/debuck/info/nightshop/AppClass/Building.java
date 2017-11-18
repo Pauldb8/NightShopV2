@@ -3,6 +3,10 @@ package nightshop.debuck.info.nightshop.AppClass;
 import android.database.Cursor;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import nightshop.debuck.info.nightshop.Tools.MyDBHelper;
 
@@ -23,6 +27,9 @@ public class Building implements Serializable {
     private  int minute_open;
     private int hour_end;
     private int minute_end;
+    private SimpleDateFormat formatAsHour = new SimpleDateFormat("HH:mm");
+    private Calendar start = Calendar.getInstance();
+    private Calendar end = Calendar.getInstance();
 
 
     public Building(){}
@@ -78,8 +85,16 @@ public class Building implements Serializable {
         this.description = description;
     }
 
-    public  double getDistance(){ return distance;}
+    public  String getDistance(){ return String.format("%.2f", this.distance);}
     public  void setDistance(double distance){ this.distance = distance;}
+
+    public String getHoursFormatted(){
+        start.set(Calendar.HOUR_OF_DAY, this.hour_open);
+        start.set(Calendar.MINUTE, this.minute_open);
+        end.set(Calendar.HOUR_OF_DAY, this.hour_end);
+        end.set(Calendar.MINUTE, this.minute_end);
+        return formatAsHour.format(start.getTime()) + " - " + formatAsHour.format(end.getTime()) ;
+    }
 
 
     public int getHour_open() {return hour_open;}
@@ -97,6 +112,14 @@ public class Building implements Serializable {
     public int getMinute_end() {return minute_end;}
 
     public void setMinute_end(int minute_end) {this.minute_end = minute_end;}
+
+    public String getHours(){
+        return this.hour_open + ":" + minute_open + " - " + hour_end + ":" + minute_end;
+    }
+
+    public String getTwoLinesAddress(){
+        return this.address.replace(", ", "\n");
+    }
 
     public void populateObject(Cursor c){
         try{
