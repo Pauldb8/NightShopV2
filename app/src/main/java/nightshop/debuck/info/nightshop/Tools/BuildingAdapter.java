@@ -51,6 +51,10 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
 
             Log.d("BuildingActivity", "Inflating view.");
 
+            /* ICI CA BUG, IL DIT QUE mCONTEXT EST VIDE CE QUI EST FAUX ; A RESOUDRE */
+            tv_change_distance.setText(((MainActivity) mContext).mDistance + "kmsss");
+            skDistance.setOnSeekBarChangeListener(this);
+            Log.d("BuildingActivity", "adding listener.");
 
             name = (TextView) view.findViewById(R.id.tv_name);
             description = (TextView) view.findViewById(R.id.tv_subtitle);
@@ -90,7 +94,7 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.building_list_row, parent, false);
 
-        return new MyViewHolder(itemView);
+        return new MyViewHolder(itemView, mContext);
     }
 
     @Override
