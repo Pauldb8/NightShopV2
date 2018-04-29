@@ -5,6 +5,9 @@ package nightshop.debuck.info.nightshop.Tools;
  */
 
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +20,7 @@ import nightshop.debuck.info.nightshop.AppClass.Building;
 import nightshop.debuck.info.nightshop.R;
 
 import java.util.List;
+import java.util.Locale;
 
 public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyViewHolder> {
 
@@ -28,6 +32,9 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
 
         private TextView name, description, status, hours, address, distance;
         private Button bt_go;
+        private Context context;
+
+
 
         public MyViewHolder(View view) {
             super(view);
@@ -41,6 +48,9 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
             hours = (TextView) view.findViewById(R.id.tv_hours);
             address = (TextView) view.findViewById(R.id.tv_address);
             distance = (TextView) view.findViewById(R.id.tv_distance);
+            bt_go =(Button) view.findViewById(R.id.bt_go);
+
+
         }
     }
 
@@ -60,7 +70,7 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Building building = buildingsList.get(position);
+        final Building building = buildingsList.get(position);
         if(building.getId() == 999999){
             displayDistance.setVisibility(View.VISIBLE);
             mBuilding.setVisibility(View.GONE);
@@ -74,12 +84,32 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
             holder.hours.setText(building.getHoursFormatted());
             holder.address.setText(building.getTwoLinesAddress());
             holder.distance.setText("" + building.getDistance() + " km");
+
+            holder.bt_go.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String uri = String.format(Locale.ENGLISH, "geo:%f,%f", building.getLat(), building.getLng());
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                    v.getContext().startActivity(intent);
+                }
+            });
+
+
+
+
         }
 
+
+
+
     }
+
+
 
     @Override
     public int getItemCount() {
         return buildingsList.size();
     }
+
+
 }

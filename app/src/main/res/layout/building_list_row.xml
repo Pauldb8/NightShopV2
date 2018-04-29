@@ -93,7 +93,7 @@
                     style="@style/black_shadow"
                     />
 
-                <TextView
+                <Button
                     android:id="@+id/bt_go"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
                     android:padding="5dp"
                     android:background="#00FFFFFF"
                     android:text="Go !"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/lightGray"
                     android:textAppearance="@android:style/TextAppearance.Material.Large"
                     style="@style/black_shadow"/>
 

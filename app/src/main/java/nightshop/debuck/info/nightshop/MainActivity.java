@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -35,6 +36,11 @@ import java.util.Locale;
 import nightshop.debuck.info.nightshop.AppClass.Building;
 import nightshop.debuck.info.nightshop.Tools.BuildingAdapter;
 import nightshop.debuck.info.nightshop.Tools.GsonRequest;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
@@ -52,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     private Location location;
     private String mCity;
     private final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 2001;
+    private AdView mAdView;
+
 
     // The minimum distance to change Updates in meters
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
@@ -70,10 +78,20 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        MobileAds.initialize(this, "3940256099942544~3347511713");
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+        mAdView.loadAd(adRequest);
+        Log.i("AdsView",adRequest.toString());
+
+
 
 
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
 
         mAdapter = new BuildingAdapter(mBuildings);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -176,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     /**
      * ini var Lat, Lng and city
+     *
      */
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults){
