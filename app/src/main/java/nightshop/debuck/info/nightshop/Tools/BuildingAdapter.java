@@ -88,9 +88,14 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
             holder.bt_go.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String uri = String.format(Locale.ENGLISH, "geo:%f,%f", building.getLat(), building.getLng());
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                    v.getContext().startActivity(intent);
+                    //String uri = String.format(Locale.ENGLISH, "geo:%f,%f", building.getLat(), building.getLng());
+                    //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                    //v.getContext().startActivity(intent);
+
+                    Uri gmmIntentUri = Uri.parse("google.navigation:q="+building.getName()+","+building.getAddress());
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                    mapIntent.setPackage("com.google.android.apps.maps");
+                    v.getContext().startActivity(mapIntent);
                 }
             });
 
