@@ -21,6 +21,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -42,18 +44,22 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 
+import org.w3c.dom.Text;
 
-public class MainActivity extends AppCompatActivity implements LocationListener {
+
+public class MainActivity extends AppCompatActivity implements LocationListener, SeekBar.OnSeekBarChangeListener {
 
 
     private List<Building> mBuildings = new ArrayList<>();
     private RecyclerView recyclerView;
     private BuildingAdapter mAdapter;
     private RequestQueue mRequestQueue;
-    private int mDistance = 10;
+    public int mDistance = 10;
+    private SeekBar skDistance;
+    private TextView tv_change_distance;
     private LocationManager locationManager;
-    private double lat;
-    private double lng;
+    public double lat;
+    public double lng;
     private String city;
     private Location location;
     private String mCity;
@@ -86,14 +92,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         mAdView.loadAd(adRequest);
         Log.i("AdsView",adRequest.toString());
 
-
-
-
-
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
 
-        mAdapter = new BuildingAdapter(mBuildings);
+        mAdapter = new BuildingAdapter(mBuildings, this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -126,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     /**
      * This method gets all the buildings near the user
      */
-    private void getBuildings(double lat, double lng, double distance) {
+    public void getBuildings(double lat, double lng, double distance) {
         String urlRequest = getString(R.string.webservice_url) + "/buildings/nearest/";
         urlRequest+= lat + "/" + lng + "/" + distance;
         GsonRequest<Building[]> getBuildingsRequest = new GsonRequest<>(
@@ -339,6 +341,22 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     @Override
     public void onProviderDisabled(String s) {
+
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+        mDistance = i;
+        getBuildings(lat, lng, mDistance);
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
 
     }
 }
