@@ -73,10 +73,10 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
             ((MainActivity) itemView.getContext()).mDistance = i;
             ((MainActivity) itemView.getContext()).getBuildings(((MainActivity) itemView.getContext()).lat,
                     ((MainActivity) itemView.getContext()).lng, ((MainActivity) itemView.getContext()).mDistance);
-            if(b){
-                skDistance.setProgress(i);
-                skDistance.setOnSeekBarChangeListener(this);
-            }
+
+                skDistance.setProgress(((MainActivity) itemView.getContext()).mDistance);
+
+
 
             Log.d("BuildingAdapter", "Changing distance");
         }

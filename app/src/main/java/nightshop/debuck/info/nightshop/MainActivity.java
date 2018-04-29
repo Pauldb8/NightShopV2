@@ -121,7 +121,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
             }
         });
 
-        getLocalisation();
+        try{
+            getLocalisation();
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),""+e.toString(),Toast.LENGTH_LONG).show();
+        }
+
     }
 
 
