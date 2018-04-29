@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         MobileAds.initialize(this, "ca-app-pub-1381021891754984~1442609929");
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR) //remove before publish app
                 .build();
         mAdView.loadAd(adRequest);
         Log.i("AdsView",adRequest.toString());

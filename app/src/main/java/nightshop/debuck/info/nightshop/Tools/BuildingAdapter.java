@@ -48,11 +48,13 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
             mBuilding = (LinearLayout) view.findViewById(R.id.building);
             tv_change_distance = (TextView) view.findViewById(R.id.tv_change_distance);
             skDistance = (SeekBar) view.findViewById(R.id.sk_distance);
+            skDistance.setProgress(((MainActivity) itemView.getContext()).mDistance );
+
 
             Log.d("BuildingActivity", "Inflating view.");
 
             /* ICI CA BUG, IL DIT QUE mCONTEXT EST VIDE CE QUI EST FAUX ; A RESOUDRE */
-            tv_change_distance.setText(((MainActivity) mContext).mDistance + "kmsss");
+            tv_change_distance.setText(((MainActivity) view.getContext()).mDistance + "km");
             skDistance.setOnSeekBarChangeListener(this);
             Log.d("BuildingActivity", "adding listener.");
 
@@ -67,9 +69,15 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-            ((MainActivity) mContext).mDistance = i;
-            ((MainActivity) mContext).getBuildings(((MainActivity) mContext).lat,
-                    ((MainActivity) mContext).lng, ((MainActivity) mContext).mDistance);
+
+            ((MainActivity) itemView.getContext()).mDistance = i;
+            ((MainActivity) itemView.getContext()).getBuildings(((MainActivity) itemView.getContext()).lat,
+                    ((MainActivity) itemView.getContext()).lng, ((MainActivity) itemView.getContext()).mDistance);
+            if(b){
+                skDistance.setProgress(i);
+                skDistance.setOnSeekBarChangeListener(this);
+            }
+
             Log.d("BuildingAdapter", "Changing distance");
         }
         @Override
@@ -94,7 +102,7 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.building_list_row, parent, false);
 
-        return new MyViewHolder(itemView, mContext);
+        return new MyViewHolder(itemView);
     }
 
     @Override

@@ -92,9 +92,9 @@
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_splash">SplashActivity</string>
-    <string name="action_distance">Distance</string>
-    <string name="intro_title">Bienvenue sur Night Shop</string>
-    <string name="welcome_title">Bienvenue sur Night Shop</string>
-    <string name="welcome_subtitle">Voici la liste des shops ouverts à l\'heure actuelle, dans les environs.</string>
-    <string name="change_distance">Changer la distance</string>
+    <string name="action_distance">Range</string>
+    <string name="intro_title">Welcome to Night Shop</string>
+    <string name="welcome_title">Welcome to Night Shop</string>
+    <string name="welcome_subtitle">Here is the list of shops currently open in your area.</string>
+    <string name="change_distance">Change the range</string>
 </resources>
