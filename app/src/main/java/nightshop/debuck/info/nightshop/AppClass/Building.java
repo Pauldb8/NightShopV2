@@ -3,10 +3,8 @@ package nightshop.debuck.info.nightshop.AppClass;
 import android.database.Cursor;
 
 import java.io.Serializable;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 import nightshop.debuck.info.nightshop.Tools.MyDBHelper;
 
@@ -23,8 +21,8 @@ public class Building implements Serializable {
     private double lat;
     private double lng;
     private double distance;
-    private int hour_open;
-    private  int minute_open;
+    private int hour_start;
+    private int minute_start;
     private int hour_end;
     private int minute_end;
     private SimpleDateFormat formatAsHour = new SimpleDateFormat("HH:mm");
@@ -43,8 +41,8 @@ public class Building implements Serializable {
         this.lng =lon;
         this.description=description;
         this.distance=distance;
-        this.hour_open=hour_open;
-        this.minute_open=minute_open;
+        this.hour_start =hour_open;
+        this.minute_start =minute_open;
         this.hour_end=hour_end;
         this.minute_end=minute_end;
     }
@@ -89,21 +87,21 @@ public class Building implements Serializable {
     public  void setDistance(double distance){ this.distance = distance;}
 
     public String getHoursFormatted(){
-        start.set(Calendar.HOUR_OF_DAY, this.hour_open);
-        start.set(Calendar.MINUTE, this.minute_open);
+        start.set(Calendar.HOUR_OF_DAY, this.hour_start);
+        start.set(Calendar.MINUTE, this.minute_start);
         end.set(Calendar.HOUR_OF_DAY, this.hour_end);
         end.set(Calendar.MINUTE, this.minute_end);
         return formatAsHour.format(start.getTime()) + " - " + formatAsHour.format(end.getTime()) ;
     }
 
 
-    public int getHour_open() {return hour_open;}
+    public int getHour_start() {return hour_start;}
 
-    public void setHour_open(int hour_open) {this.hour_open = hour_open;}
+    public void setHour_start(int hour_start) {this.hour_start = hour_start;}
 
-    public int getMinute_open() {return minute_open;}
+    public int getMinute_start() {return minute_start;}
 
-    public void setMinute_open(int minute_open) {this.minute_open = minute_open;}
+    public void setMinute_start(int minute_start) {this.minute_start = minute_start;}
 
     public int getHour_end() {return hour_end;}
 
@@ -114,7 +112,7 @@ public class Building implements Serializable {
     public void setMinute_end(int minute_end) {this.minute_end = minute_end;}
 
     public String getHours(){
-        return this.hour_open + ":" + minute_open + " - " + hour_end + ":" + minute_end;
+        return this.hour_start + ":" + minute_start + " - " + hour_end + ":" + minute_end;
     }
 
     public String getTwoLinesAddress(){
@@ -145,8 +143,8 @@ public class Building implements Serializable {
         return ("[Building: id=" + getId() + ", name=" + getName() +", address=" +
                 getAddress() + ", lat=" + getLat()+ ", lng=" + getLng()+ ", description=" +
                 getDescription() + ", distance=" + getDistance()
-                + ", hour_open=" + getHour_open()
-                + ", minute_open=" + getMinute_open()
+                + ", hour_start=" + getHour_start()
+                + ", minute_start=" + getMinute_start()
                 + ", hour_end=" + getHour_end()
                 + ", minute_end=" + getMinute_end()
                 +"]");

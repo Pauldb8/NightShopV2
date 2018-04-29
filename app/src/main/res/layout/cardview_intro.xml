@@ -19,7 +19,8 @@
         android:layout_height="wrap_content"
         android:text="@string/welcome_title"
         android:textAppearance="@android:style/TextAppearance.Material.Large"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        style="@style/black_shadow"/>
 
     <TextView
         android:id="@+id/welcome_subtitle"
