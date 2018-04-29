@@ -8,6 +8,7 @@
     <color name="building_status">#33691E</color>
 
     <color name="white">#ffffff</color>
-    <color name="lightGray">#cccccc</color>
+    <color name="lightGray">#dddddd</color>
     <color name="black">#000000</color>
+    <color name="green">#4CAF50</color>
 </resources>

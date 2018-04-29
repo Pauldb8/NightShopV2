@@ -18,7 +18,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/card_background">
+        android:background="@drawable/card_background_2">
 
         <LinearLayout
             android:id="@+id/building"
@@ -51,7 +51,6 @@
                     android:textColor="@color/lightGray"
                     android:layout_below="@id/tv_name"
                     android:text="This is some description about this place, is it nice and what kind of facilities does it have ?"
-                    style="@style/black_shadow"
                     />
 
 
@@ -62,7 +61,6 @@
                     android:text="1 apple street\nCalifornia"
                     android:textColor="@color/white"
                     android:layout_alignParentBottom="true"
-                    style="@style/black_shadow"
                     />
             </RelativeLayout>
 
@@ -79,8 +77,11 @@
                     android:fontFamily="@font/codystar_regular"
                     android:text="OPEN"
                     android:textColor="@color/white"
-                    android:layout_centerHorizontal="true"
-                    style="@style/black_shadow"/>
+                    android:textSize="30sp"
+                    android:background="@color/black"
+                    android:textStyle="bold"
+                    android:paddingHorizontal="8dp"
+                    android:layout_centerHorizontal="true" />
 
                 <TextView
                     android:id="@+id/tv_hours"
@@ -88,9 +89,8 @@
                     android:layout_height="wrap_content"
                     android:text="18:00 - 01:00"
                     android:textColor="@color/white"
-                    android:gravity="center_horizontal"
+                    android:layout_centerHorizontal="true"
                     android:layout_below="@id/tv_status"
-                    style="@style/black_shadow"
                     />
 
                 <Button
@@ -104,7 +104,8 @@
                     android:text="Go !"
                     android:textColor="@color/lightGray"
                     android:textAppearance="@android:style/TextAppearance.Material.Large"
-                    style="@style/black_shadow"/>
+                    style="@style/black_shadow"
+                    />
 
                 <TextView
                     android:id="@+id/tv_distance"
@@ -113,21 +114,20 @@
                     android:textColor="@color/white"
                     android:text="2.5 km"
                     android:layout_above="@id/bt_go"
-                    android:layout_centerInParent="true"
-                    android:layout_marginBottom="3dp"
-                    style="@style/black_shadow"/>
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="3dp" />
 
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_location_white"
                     android:layout_toLeftOf="@id/tv_distance"
-                    android:layout_centerInParent="true"
-                    android:layout_above="@id/bt_go"
-                    style="@style/black_shadow"/>
+                    android:layout_centerHorizontal="true"
+                    android:layout_above="@id/bt_go" />
 
             </RelativeLayout>
         </LinearLayout>
+
         <include layout="@layout/cardview_intro" />
 
     </RelativeLayout>
