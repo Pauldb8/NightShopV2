@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
 
     // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 5; // 5 minute
     private boolean canGetLocation;
 
     private final String TAG = "MainActivity";
@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         MobileAds.initialize(this, "ca-app-pub-1381021891754984~1442609929");
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR) //remove before publish app
                 .build();
         mAdView.loadAd(adRequest);
         Log.i("AdsView",adRequest.toString());
