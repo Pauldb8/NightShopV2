@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         try{
             getLocalisation();
         }catch (Exception e){
-            Toast.makeText(getApplicationContext(),""+e.toString(),Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),getString(R.string.cant_locate),Toast.LENGTH_LONG).show();
         }
 
     }
