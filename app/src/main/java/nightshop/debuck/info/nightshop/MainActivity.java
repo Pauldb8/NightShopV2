@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     public int mDistance = 10;
     private SeekBar skDistance;
     private TextView tv_change_distance;
+    private TextView tv_no_results;
     private LocationManager locationManager;
     public double lat;
     public double lng;
@@ -101,8 +102,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         Log.i("AdsView",adRequest.toString());
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
-
+        tv_no_results = (TextView) findViewById(R.id.tv_no_results);
         mAdapter = new BuildingAdapter(mBuildings, this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -122,9 +122,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "We check your localisation", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
                 try{
+                    mDistance = 10;
                     getLocalisation();
                 }catch (Exception e){
                     Toast.makeText(getApplicationContext(), getString(R.string.cant_locate),Toast.LENGTH_LONG).show();
@@ -179,6 +178,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         listDistance.add(distance);
         for(int i = 0; i < list.size(); i++){
             listDistance.add(list.get(i));
+        }
+
+        /* No results found, showing message */
+        if(list.size() == 0){
+            tv_no_results.setVisibility(View.VISIBLE);
+        }else{
+            tv_no_results.setVisibility(View.GONE);
         }
 
 
