@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mCtl = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+
         mDistance = parseInt(getString(R.string.distance));
 
         MobileAds.initialize(this, "ca-app-pub-1381021891754984~1442609929");
@@ -191,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 

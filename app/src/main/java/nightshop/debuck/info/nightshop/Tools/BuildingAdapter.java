@@ -136,9 +136,9 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
                 }
             });
             /* Last card will get a margin bottom for ads */
-            if(position == position){
-                CardView.LayoutParams lp = (CardView.LayoutParams) holder.itemView.getLayoutParams();
-                Resources r = mContext.getResources();
+            if(position == getItemCount()-1){
+                RecyclerView.LayoutParams lp =  (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
+                Resources r = holder.itemView.getResources();
                 int px = (int) TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,
                         50,

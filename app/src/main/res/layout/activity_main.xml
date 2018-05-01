@@ -13,7 +13,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="nightshop.debuck.info.nightshop.MainActivity"
-    android:background="@color/colorPrimaryDark">
+    android:background="@drawable/toolbar">
 
 
 
