@@ -74,13 +74,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:min="1"
-                android:max="50"
+                android:max="@string/distance_max"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="50km"
+                android:text="20km"
                 android:textColor="@color/white"/>
 
         </LinearLayout>

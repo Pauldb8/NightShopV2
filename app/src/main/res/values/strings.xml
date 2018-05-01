@@ -97,4 +97,5 @@
     <string name="welcome_title">Welcome to Night Shop</string>
     <string name="welcome_subtitle">Here is the list of shops currently open in your area.</string>
     <string name="change_distance">Change the range</string>
+    <string name="cant_locate">Impossible de vous localiser.</string>
 </resources>

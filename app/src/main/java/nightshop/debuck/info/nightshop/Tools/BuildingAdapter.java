@@ -7,9 +7,12 @@ package nightshop.debuck.info.nightshop.Tools;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +56,6 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
 
             Log.d("BuildingActivity", "Inflating view.");
 
-            /* ICI CA BUG, IL DIT QUE mCONTEXT EST VIDE CE QUI EST FAUX ; A RESOUDRE */
             tv_change_distance.setText(((MainActivity) view.getContext()).mDistance + "km");
             skDistance.setOnSeekBarChangeListener(this);
             Log.d("BuildingActivity", "adding listener.");
@@ -71,19 +73,17 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
         public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
             ((MainActivity) itemView.getContext()).mDistance = i;
-            ((MainActivity) itemView.getContext()).getBuildings(((MainActivity) itemView.getContext()).lat,
-                    ((MainActivity) itemView.getContext()).lng, ((MainActivity) itemView.getContext()).mDistance);
-
-                skDistance.setProgress(((MainActivity) itemView.getContext()).mDistance);
-
-
+            tv_change_distance.setText(((MainActivity) itemView.getContext()).mDistance + "km");
 
             Log.d("BuildingAdapter", "Changing distance");
         }
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {}
         @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {}
+        public void onStopTrackingTouch(SeekBar seekBar) {
+            ((MainActivity) itemView.getContext()).getBuildings(((MainActivity) itemView.getContext()).lat,
+                    ((MainActivity) itemView.getContext()).lng, ((MainActivity) itemView.getContext()).mDistance);
+        }
     }
 
 
@@ -135,6 +135,17 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
                     v.getContext().startActivity(mapIntent);
                 }
             });
+            /* Last card will get a margin bottom for ads */
+            if(position == position){
+                CardView.LayoutParams lp = (CardView.LayoutParams) holder.itemView.getLayoutParams();
+                Resources r = mContext.getResources();
+                int px = (int) TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        50,
+                        r.getDisplayMetrics()
+                );
+                lp.setMargins(0, 0, 0 , px);
+            }
         }
 
     }

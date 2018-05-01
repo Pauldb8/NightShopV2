@@ -8,6 +8,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -46,6 +47,9 @@ import com.google.android.gms.ads.MobileAds;
 
 import org.w3c.dom.Text;
 
+import static java.lang.Integer.getInteger;
+import static java.lang.Integer.parseInt;
+
 
 public class MainActivity extends AppCompatActivity implements LocationListener, SeekBar.OnSeekBarChangeListener {
 
@@ -65,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     private String mCity;
     private final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 2001;
     private AdView mAdView;
+    private CollapsingToolbarLayout mCtl;
 
 
     // The minimum distance to change Updates in meters
@@ -83,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mCtl = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        mDistance = parseInt(getString(R.string.distance));
 
         MobileAds.initialize(this, "ca-app-pub-1381021891754984~1442609929");
         mAdView = findViewById(R.id.adView);
@@ -116,8 +123,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
             public void onClick(View view) {
                 Snackbar.make(view, "We check your localisation", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-
-                getLocalisation();
+                try{
+                    getLocalisation();
+                }catch (Exception e){
+                    Toast.makeText(getApplicationContext(), getString(R.string.cant_locate),Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -298,31 +308,30 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                     }
                 }
 
-                Log.d("MainActivity", lat + " and " + lng);
-                getBuildings(lat, lng, mDistance);
-
-                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-                List<Address> addresses = null;
-                try {
-                    addresses = geocoder.getFromLocation(lat, lng, 1);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                mCity = addresses.get(0).getLocality();
-
-                setTitle(mCity);
-
-                if(addresses != null){
-                    String stateName = addresses.get(0).getAddressLine(1);
-                    String countryName = addresses.get(0).getAddressLine(2);
-                    Log.i("GEOCODER", mCity + " and " + stateName+" and "+countryName);
-                }
-
-
             }// End of if GPS Enabled
         }// End of Either GPS provider or network provider is enabled
 
+        if(canGetLocation){
+            Log.d("MainActivity", lat + " and " + lng);
+            getBuildings(lat, lng, mDistance);
 
+            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+            List<Address> addresses = null;
+            try {
+                addresses = geocoder.getFromLocation(lat, lng, 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            mCity = addresses.get(0).getLocality();
+
+            mCtl.setTitle(mCity);
+
+            if(addresses != null){
+                String stateName = addresses.get(0).getAddressLine(1);
+                String countryName = addresses.get(0).getAddressLine(2);
+                Log.i("GEOCODER", mCity + " and " + stateName+" and "+countryName);
+            }
+        }
 
     }
 
