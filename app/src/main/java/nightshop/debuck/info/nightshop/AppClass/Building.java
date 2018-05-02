@@ -21,10 +21,9 @@ public class Building implements Serializable {
     private double lat;
     private double lng;
     private double distance;
-    private int hour_start;
-    private int minute_start;
-    private int hour_end;
-    private int minute_end;
+    private String time_start;
+    private String time_end;
+
     private SimpleDateFormat formatAsHour = new SimpleDateFormat("HH:mm");
     private Calendar start = Calendar.getInstance();
     private Calendar end = Calendar.getInstance();
@@ -33,7 +32,7 @@ public class Building implements Serializable {
     public Building(){}
 
     public Building(int id, String name, String address, String description, double lat, double lon,
-                    double distance, int hour_open,int minute_open,int hour_end, int minute_end) {
+                    double distance, String time_start, String time_end) {
         this.id = id;
         this.name = name;
         this.address=address;
@@ -41,10 +40,9 @@ public class Building implements Serializable {
         this.lng =lon;
         this.description=description;
         this.distance=distance;
-        this.hour_start =hour_open;
-        this.minute_start =minute_open;
-        this.hour_end=hour_end;
-        this.minute_end=minute_end;
+        this.time_start =time_start;
+        this.time_end =time_end;
+
     }
 
 
@@ -87,32 +85,24 @@ public class Building implements Serializable {
     public  void setDistance(double distance){ this.distance = distance;}
 
     public String getHoursFormatted(){
-        start.set(Calendar.HOUR_OF_DAY, this.hour_start);
-        start.set(Calendar.MINUTE, this.minute_start);
-        end.set(Calendar.HOUR_OF_DAY, this.hour_end);
-        end.set(Calendar.MINUTE, this.minute_end);
-        return formatAsHour.format(start.getTime()) + " - " + formatAsHour.format(end.getTime()) ;
+        return formatAsHour.format(getTime_start()) + " - " + formatAsHour.format(getTime_end()) ;
     }
 
 
-    public int getHour_start() {return hour_start;}
+    public String getTime_start() {
+        return time_start;
+    }
 
-    public void setHour_start(int hour_start) {this.hour_start = hour_start;}
+    public void setTime_start(String time_start) {
+        this.time_start = time_start;
+    }
 
-    public int getMinute_start() {return minute_start;}
+    public String getTime_end() {
+        return time_end;
+    }
 
-    public void setMinute_start(int minute_start) {this.minute_start = minute_start;}
-
-    public int getHour_end() {return hour_end;}
-
-    public void setHour_end(int hour_end) {this.hour_end = hour_end;}
-
-    public int getMinute_end() {return minute_end;}
-
-    public void setMinute_end(int minute_end) {this.minute_end = minute_end;}
-
-    public String getHours(){
-        return this.hour_start + ":" + minute_start + " - " + hour_end + ":" + minute_end;
+    public void setTime_end(String time_end) {
+        this.time_end = time_end;
     }
 
     public String getTwoLinesAddress(){
@@ -143,10 +133,9 @@ public class Building implements Serializable {
         return ("[Building: id=" + getId() + ", name=" + getName() +", address=" +
                 getAddress() + ", lat=" + getLat()+ ", lng=" + getLng()+ ", description=" +
                 getDescription() + ", distance=" + getDistance()
-                + ", hour_start=" + getHour_start()
-                + ", minute_start=" + getMinute_start()
-                + ", hour_end=" + getHour_end()
-                + ", minute_end=" + getMinute_end()
+                + ", time_start=" + getTime_start()
+                + ", time_end=" + getTime_end()
+
                 +"]");
     }
 

@@ -18,6 +18,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
         private static final String INT_TYPE = " INTEGER";
         private static final String REAL_TYPE = " REAL";
         private static final String DATE_TYPE = " DATETIME";
+        private static final String TIME = " TIME";
         private static final String COMMA_SEP = ", ";
         private static final String DEFAULT = " DEFAULT ";
 
@@ -40,10 +41,8 @@ public class MyDBHelper extends SQLiteOpenHelper {
         private static final String SQL_CREATE_ENTRIES_SCHEDULE =
                 "CREATE TABLE " + Schedule.TABLE_SCHEDULE_NAME + " (" +
                         Schedule.COLUMN_NAME_SCHEDULE_ID + INT_TYPE + " PRIMARY KEY AUTOINCREMENT," +
-                        Schedule.COLUMN_NAME_SCHEDULE_HOUR_OPEN + INT_TYPE + COMMA_SEP +
-                        Schedule.COLUMN_NAME_SCHEDULE_MINUTE_OPEN + INT_TYPE + COMMA_SEP +
-                        Schedule.COLUMN_NAME_SCHEDULE_HOUR_CLOSE + INT_TYPE + COMMA_SEP +
-                        Schedule.COLUMN_NAME_SCHEDULE_MINUTE_CLOSE + INT_TYPE + COMMA_SEP +
+                        Schedule.COLUMN_NAME_SCHEDULE_TIME_START + TIME + COMMA_SEP +
+                        Schedule.COLUMN_NAME_SCHEDULE_TIME_END + TIME + COMMA_SEP +
                         Schedule.COLUMN_NAME_SCHEDULE_FK_BUILDINGS_ID + INT_TYPE + " )";
 
 
@@ -88,10 +87,8 @@ public class MyDBHelper extends SQLiteOpenHelper {
         public class Schedule implements BaseColumns{
             public static final String TABLE_SCHEDULE_NAME = "Schedule";
             public static final String COLUMN_NAME_SCHEDULE_ID = "id";
-            public static final String COLUMN_NAME_SCHEDULE_HOUR_OPEN = "hour_open";
-            public static final String COLUMN_NAME_SCHEDULE_MINUTE_OPEN = "minute_open";
-            public static final String COLUMN_NAME_SCHEDULE_HOUR_CLOSE = "hour_close";
-            public static final String COLUMN_NAME_SCHEDULE_MINUTE_CLOSE = "minute_close";
+            public static final String COLUMN_NAME_SCHEDULE_TIME_START = "time_start";
+            public static final String COLUMN_NAME_SCHEDULE_TIME_END = "time_end";
             public static final String COLUMN_NAME_SCHEDULE_FK_BUILDINGS_ID = "fk_buildings_id";
         }
 
@@ -109,7 +106,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
 
     /* DB Helper */
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "MyDB.db";
 
     public MyDBHelper(Context context) {
