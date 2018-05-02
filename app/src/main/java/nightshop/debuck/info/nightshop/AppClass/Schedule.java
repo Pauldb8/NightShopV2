@@ -79,10 +79,6 @@ public class Schedule implements Serializable {
                     c.getColumnIndexOrThrow(MyDBHelper.MyDBContract.Schedule.COLUMN_NAME_SCHEDULE_ID)));
             this.setHour_open(c.getInt(
                     c.getColumnIndexOrThrow(MyDBHelper.MyDBContract.Schedule.COLUMN_NAME_SCHEDULE_TIME_START)));
-            this.setMinute_open((c.getInt(
-                    c.getColumnIndexOrThrow(MyDBHelper.MyDBContract.Schedule.COLUMN_NAME_SCHEDULE_MINUTE_OPEN))));
-            this.setHour_close(c.getInt(
-                    c.getColumnIndexOrThrow(MyDBHelper.MyDBContract.Schedule.COLUMN_NAME_SCHEDULE_HOUR_CLOSE)));
             this.setMinute_close(c.getInt(
                     c.getColumnIndexOrThrow(MyDBHelper.MyDBContract.Schedule.COLUMN_NAME_SCHEDULE_TIME_END)));
             this.setFk_buildings_id(c.getInt(

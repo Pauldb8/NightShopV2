@@ -85,7 +85,7 @@ public class Building implements Serializable {
     public  void setDistance(double distance){ this.distance = distance;}
 
     public String getHoursFormatted(){
-        return formatAsHour.format(getTime_start()) + " - " + formatAsHour.format(getTime_end()) ;
+        return getTime_start().substring(0, 5) + " - " + getTime_end().substring(0, 5) ;
     }
 
 
