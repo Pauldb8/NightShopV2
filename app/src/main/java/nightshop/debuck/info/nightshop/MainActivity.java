@@ -144,8 +144,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     /***
      * this method send the data of the device for stats
-     * TODO create the receiveDateDevice function to the server
-     */
+     * */
     public void sendData(String idDevice, double lat, double lng){
 
         String urlRequest = getString(R.string.webservice_url) + "/sendDataDevice/";
