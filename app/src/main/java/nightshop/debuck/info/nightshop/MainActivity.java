@@ -1,6 +1,7 @@
 package nightshop.debuck.info.nightshop;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -8,6 +9,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -53,7 +55,6 @@ import static java.lang.Integer.parseInt;
 
 public class MainActivity extends AppCompatActivity implements LocationListener, SeekBar.OnSeekBarChangeListener {
 
-
     private List<Building> mBuildings = new ArrayList<>();
     private RecyclerView recyclerView;
     private BuildingAdapter mAdapter;
@@ -71,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     private final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 2001;
     private AdView mAdView;
     private CollapsingToolbarLayout mCtl;
+    /*ID Device*/
+    private String deviceID;
 
 
     // The minimum distance to change Updates in meters
@@ -92,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         mCtl = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
 
         mDistance = parseInt(getString(R.string.distance));
+        deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
         MobileAds.initialize(this, "ca-app-pub-1381021891754984~1442609929");
         mAdView = findViewById(R.id.adView);
@@ -138,6 +142,37 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     }
 
+    /***
+     * this method send the data of the device for stats
+     * TODO create the receiveDateDevice function to the server
+     */
+    public void sendData(String idDevice, double lat, double lng){
+
+        String urlRequest = getString(R.string.webservice_url) + "/sendDataDevice/";
+        urlRequest+= lat + "/" + lng + "/" + idDevice;
+        GsonRequest<String> setData = new GsonRequest<>(
+                urlRequest,
+                String.class,
+                null,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("MainActivity", "GOOD");
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("MainActivity", "Error connecting to webserver..");
+                        error.printStackTrace();
+                    }
+                }
+        );
+
+        mRequestQueue.add(setData);
+
+    }
 
     /**
      * This method gets all the buildings near the user
@@ -166,6 +201,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         );
 
         mRequestQueue.add(getBuildingsRequest);
+
+        sendData(deviceID,lat,lng);
     }
 
 
@@ -209,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_requestshop) {
             return true;
         }
         return super.onOptionsItemSelected(item);

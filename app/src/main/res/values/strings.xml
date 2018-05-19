@@ -99,4 +99,6 @@
     <string name="change_distance">Change the range</string>
     <string name="cant_locate">Can not locate you.</string>
     <string name="no_results">No results for you search, try increasing the range.</string>
+    <string name="action_requestShop">Request NightShop</string>
+    <string name="labelrequest">Request a NightShop</string>
 </resources>

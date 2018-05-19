@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         tools:context="nightshop.debuck.info.nightshop.MainActivity"
-        android:background="@drawable/nightsky">
+        android:background="@drawable/backgroundsky">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
@@ -85,7 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        ads:adSize="BANNER"
+        ads:adSize="SMART_BANNER"
         ads:adUnitId="ca-app-pub-1381021891754984/2542146593">
     </com.google.android.gms.ads.AdView>
 </RelativeLayout>

@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="nightshop.debuck.info.nightshop.MainActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_requestshop"
         android:orderInCategory="100"
-        android:title="@string/action_distance"
+        android:title="@string/action_requestShop"
         app:showAsAction="never" />
 </menu>
